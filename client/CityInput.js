@@ -6,7 +6,8 @@ const CityInput = () => {
     const [city, setCity] = React.useState('');
 
     const handleSubmit = () => {
-
+        const currentCity = city;
+        const airQualityInfo = axios.get()
     }
 
     return (
