@@ -6,7 +6,7 @@ const Map = (props) => {
     const cities = props.data;
     const markers = cities.map((city, idx) => {
         const description =
-            `Ground-Level Ozone: ${city.data.current.air_quality.o3.toFixed(2)}\nCarbon Monoxide: ${city.data.current.air_quality.co.toFixed(2)}\nPM10: ${city.data.current.air_quality.pm10.toFixed(2)}\nPM2.5: ${city.data.current.air_quality.pm2_5.toFixed(2)}`;
+            `Ground-Level Ozone: ${city.data.current.air_quality.o3.toFixed(2)}\nCarbon Monoxide: ${city.data.current.air_quality.co.toFixed(2)}\nPM2.5: ${city.data.current.air_quality.pm2_5.toFixed(2)}\nPM10: ${city.data.current.air_quality.pm10.toFixed(2)}`;
         return (
             <Marker
                 key={idx}
