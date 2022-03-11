@@ -22,19 +22,6 @@ const getCurrentAirQuality = async (cityOrZip) => {
 
 const getDefaultAirQuality = async () => {
     try {
-
-        // const { data: newYork } =  await axios.get(`http://api.weatherapi.com/v1/current.json?key=${key}&q=New York&aqi=yes`);
-        // const { data: losAngeles } =  await axios.get(`http://api.weatherapi.com/v1/current.json?key=${key}&q=Los Angeles&aqi=yes`);
-        // const { data: london } = await axios.get(`http://api.weatherapi.com/v1/current.json?key=${key}&q=London&aqi=yes`);
-        // const { data: berlin } = await axios.get(`http://api.weatherapi.com/v1/current.json?key=${key}&q=Berlin&aqi=yes`);
-        // const { data: paris } = await axios.get(`http://api.weatherapi.com/v1/current.json?key=${key}&q=Paris&aqi=yes`);
-        // const { data: beijing } = await axios.get(`http://api.weatherapi.com/v1/current.json?key=${key}&q=Beijing&aqi=yes`);
-        // const { data: tokyo } = await axios.get(`http://api.weatherapi.com/v1/current.json?key=${key}&q=Tokyo&aqi=yes`);
-        // const { data: newDelhi } = await axios.get(`http://api.weatherapi.com/v1/current.json?key=${key}&q=New Delhi&aqi=yes`);
-        // const { data: cairo } = await axios.get(`http://api.weatherapi.com/v1/current.json?key=${key}&q=Cairo&aqi=yes`);
-        // const { data: saoPaolo } = await axios.get(`http://api.weatherapi.com/v1/current.json?key=${key}&q=Sao Paolo&aqi=yes`);
-        // const { data: bangkok } = await axios.get(`http://api.weatherapi.com/v1/current.json?key=${key}&q=Bangkok&aqi=yes`);
-
         const newYork = axios.get(`http://api.weatherapi.com/v1/current.json?key=${key}&q=New York&aqi=yes`);
         const losAngeles = axios.get(`http://api.weatherapi.com/v1/current.json?key=${key}&q=Los Angeles&aqi=yes`);
         const london = axios.get(`http://api.weatherapi.com/v1/current.json?key=${key}&q=London&aqi=yes`);
@@ -46,8 +33,33 @@ const getDefaultAirQuality = async () => {
         const cairo = axios.get(`http://api.weatherapi.com/v1/current.json?key=${key}&q=Cairo&aqi=yes`);
         const saoPaolo = axios.get(`http://api.weatherapi.com/v1/current.json?key=${key}&q=Sao Paolo&aqi=yes`);
         const bangkok = axios.get(`http://api.weatherapi.com/v1/current.json?key=${key}&q=Bangkok&aqi=yes`);
+        const chicago = axios.get(`http://api.weatherapi.com/v1/current.json?key=${key}&q=Chicago&aqi=yes`);
+        const sanFrancisco = axios.get(`http://api.weatherapi.com/v1/current.json?key=${key}&q=San Francisco&aqi=yes`);
+        const denver = axios.get(`http://api.weatherapi.com/v1/current.json?key=${key}&q=Denver&aqi=yes`);
+        const miami = axios.get(`http://api.weatherapi.com/v1/current.json?key=${key}&q=Miami&aqi=yes`);
+        const orlando = axios.get(`http://api.weatherapi.com/v1/current.json?key=${key}&q=Orlando&aqi=yes`);
+        const seattle = axios.get(`http://api.weatherapi.com/v1/current.json?key=${key}&q=Seattle&aqi=yes`);
+        const shanghai = axios.get(`http://api.weatherapi.com/v1/current.json?key=${key}&q=Shanghai&aqi=yes`);
+        const mumbai = axios.get(`http://api.weatherapi.com/v1/current.json?key=${key}&q=Mumbai&aqi=yes`);
         
-        return Promise.all([newYork, losAngeles, london, berlin, paris, beijing, tokyo, newDelhi, cairo, saoPaolo, bangkok]);
+        return Promise.all([
+            newYork, 
+            losAngeles, 
+            london, 
+            berlin, 
+            paris, 
+            beijing, 
+            tokyo, 
+            newDelhi, 
+            cairo, 
+            saoPaolo, 
+            bangkok,
+            chicago,
+            sanFrancisco,
+            denver,
+            miami
+        ]);
+
 
     } catch (error) {
         console.log('error', error);
