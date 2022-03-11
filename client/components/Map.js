@@ -23,12 +23,12 @@ const Map = (props) => {
             <MapView
                 style={styles.map}
                 provider={PROVIDER_GOOGLE}
-            // initialRegion={{
-            //     latitude: 38.000,
-            //     longitude: -97.000,
-            //     latitudeDelta: 0.0922,
-            //     longitudeDelta: 0.0421
-            // }}
+                initialRegion={{
+                    latitude: 46.6714,
+                    longitude: -103.8521,
+                    latitudeDelta: 5,
+                    longitudeDelta: 50,
+                }}
             >
                 {markers}
             </MapView>
@@ -38,14 +38,13 @@ const Map = (props) => {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
         backgroundColor: '#fff',
         alignItems: 'center',
         justifyContent: 'center',
     },
     map: {
         width: Dimensions.get('window').width,
-        height: Dimensions.get('window').height,
+        height: 400,
     },
 });
 
