@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react';
 import { View, Text, TextInput, StyleSheet } from 'react-native';
-import { getCurrentAirQuality } from '../data';
+import { getAirQualityData, defaultCities} from '../data';
 import AQIRender from './AQIRender';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const CityInput = () => {
+const CityInput = props => {
     const [cityOrZip, setCityOrZip] = React.useState('');
     const [currentCityData, setCurrentCityData] = React.useState('');
     const [cityData, setCityData] = React.useState(null);
@@ -16,11 +17,30 @@ const CityInput = () => {
         }
     }, [cityData]);
 
+    // store each city being searched into localstorage
+    const storeCity = async (value) => {
+        try {
+            const storageStrValue = await AsyncStorage.getItem('city');
+            const storageValue = storageStrValue ? JSON.parse(storageStrValue) : [];
+            
+            // check if the city already exists on map
+            if (storageValue.includes(value) || defaultCities.includes(value)) return;
+            
+            storageValue.push(value);
+            const jsonValue = JSON.stringify(storageValue);
+            await AsyncStorage.setItem('city', jsonValue)
+            
+        } catch (err) {
+            console.log('error', err);
+        }
+    }
+
     const handleSubmit = async () => {
-        const dataFromAPI = await getCurrentAirQuality(cityOrZip);
+        const dataFromAPI = await getAirQualityData(cityOrZip);
+        storeCity(cityOrZip);
         setCityData(dataFromAPI);
         setCityOrZip('');
-
+        props.addCity(dataFromAPI);
     };
 
     return (
@@ -31,8 +51,8 @@ const CityInput = () => {
                 value={cityOrZip}
                 onSubmitEditing={handleSubmit}
                 placeholder={'Enter City or Zipcode'}
-            ></TextInput>
-            <View>{currentCityData ? <AQIRender citydata={currentCityData} /> : null}</View>
+            />
+            {/* <View>{currentCityData ? <AQIRender citydata={currentCityData} /> : null}</View> */}
         </View>
     );
 };

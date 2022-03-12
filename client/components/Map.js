@@ -1,22 +1,23 @@
 import * as React from 'react';
-import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps';
+import MapView, { PROVIDER_GOOGLE, Marker, Image } from 'react-native-maps';
 import { StyleSheet, Text, View, Dimensions } from 'react-native';
 
 const Map = (props) => {
     const cities = props.data;
     const markers = cities.map((city, idx) => {
-        const description =
-            `Ground-Level Ozone: ${city.data.current.air_quality.o3.toFixed(2)}\nCarbon Monoxide: ${city.data.current.air_quality.co.toFixed(2)}\nPM2.5: ${city.data.current.air_quality.pm2_5.toFixed(2)}\nPM10: ${city.data.current.air_quality.pm10.toFixed(2)}`;
+        const description = getDescription(city.data.current.air_quality);
         return (
             <Marker
                 key={idx}
                 coordinate={{ latitude: city.data.location.lat, longitude: city.data.location.lon }}
+                // image={require('./870E4F.png')}
                 pinColor={getcolor(city.data.current.air_quality.pm2_5)}
-                title={city.data.location.name}
+                title={`${city.data.location.name} - PM2.5: ${parseInt(city.data.current.air_quality.pm2_5)}`}
                 description={description}
             />
         )
     })
+
 
     return (
         <View style={styles.container}>
@@ -36,17 +37,9 @@ const Map = (props) => {
     )
 }
 
-const styles = StyleSheet.create({
-    container: {
-        backgroundColor: '#fff',
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    map: {
-        width: Dimensions.get('window').width,
-        height: 400,
-    },
-});
+const getDescription = (aqiObj) => {
+    return `Air Quality: ${epaConverter(aqiObj['us-epa-index'])}\nCarbon Monoxide: ${aqiObj.co.toFixed(2)}\nGround-Level Ozone: ${aqiObj.o3.toFixed(2)}\nPM10: ${aqiObj.pm10.toFixed(2)}`;
+}
 
 const getcolor = (value) => {
     switch (true) {
@@ -66,5 +59,35 @@ const getcolor = (value) => {
             return '';
     }
 }
+
+const epaConverter = (num) => {
+    switch (true) {
+        case num === 1:
+            return 'Good'
+        case num === 2:
+            return 'Moderate'
+        case num === 3:
+            return 'Unhealthy for Sensitive Group'
+        case num === 4:
+            return 'Unhealthy'
+        case num === 5:
+            return 'Very Unhealthy'
+        case num === 6:
+            return 'Hazardous'
+        default:
+            return '';
+    }
+}
+const styles = StyleSheet.create({
+    container: {
+        backgroundColor: '#fff',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    map: {
+        width: Dimensions.get('window').width,
+        height: 400,
+    },
+});
 
 export default Map;
