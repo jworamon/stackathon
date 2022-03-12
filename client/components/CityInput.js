@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { View, Text, TextInput, StyleSheet } from 'react-native';
+import { View, Text, TextInput, StyleSheet, Dimensions } from 'react-native';
 import { getAirQualityData, defaultCities} from '../data';
 import AQIRender from './AQIRender';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -29,7 +29,7 @@ const CityInput = props => {
             storageValue.push(value);
             const jsonValue = JSON.stringify(storageValue);
             await AsyncStorage.setItem('city', jsonValue)
-            
+
         } catch (err) {
             console.log('error', err);
         }
@@ -60,13 +60,14 @@ const CityInput = props => {
 const styles = StyleSheet.create({
     container: {
         alignItems: 'center',
-        margin: 10,
+        margin: 70,
         marginBottom: 15
     },
     input: {
-        height: 30,
-        width: 200,
+        height: 40,
+        width: Dimensions.get('window').width * 0.9,
         fontSize: 20,
+        backgroundColor: '#fff',
         borderWidth: 1,
         borderColor: 'lightgrey',
         borderRadius: 2,

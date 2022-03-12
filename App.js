@@ -10,6 +10,7 @@ import Map from './client/components/Map';
 const App = () => {
 	const [cities, _setCities] = useState(defaultCities);
 	const [cityData, setCityData] = useState([]);
+	const [selectedCity, setSelectedCity] = useState(null);
 
 	useEffect(() => {
 		if (cities.length === defaultCities.length) {
@@ -22,14 +23,13 @@ const App = () => {
 		citiesRef.current = cities;
 		_setCities(cities);
 	}
-	
+
 	const getCityFromStorage = async () => {
-		// await AsyncStorage.removeItem('city');
 		const jsonValue = await AsyncStorage.getItem('city');
-			if (jsonValue) {
-				const cityArr = JSON.parse(jsonValue);
-				setCities([...citiesRef.current, ...cityArr]);
-			}
+		if (jsonValue) {
+			const cityArr = JSON.parse(jsonValue);
+			setCities([...citiesRef.current, ...cityArr]);
+		}
 	}
 
 	const loadCitiesData = async () => {
@@ -50,21 +50,25 @@ const App = () => {
 
 	const addCityToData = (data) => {
 		setCityData([...cityData, data]);
+		setSelectedCity(data);
+	}
+
+	const selectCity = (data) => {
+		setSelectedCity(data);
 	}
 
 	return (
 		<TouchableWithoutFeedback onPress={Keyboard.dismiss}>
 			<View style={styles.container}>
-				<Text style={styles.header}>Air Quality Index</Text>
+				<Map data={cityData} selectCity={selectCity} />
 				<CityInput addCity={addCityToData} />
-				<Map data={cityData} />
-				{/* {
-        defaultData.length !== 0 ? defaultData.map((city, idx) => (
-          <AQIRender key={idx} citydata={city.data} />
-        )) : null
-      } */}
-
-
+				{/* <View style={styles.header}>
+					<Text style={styles.headerText}>Air Quality Index</Text>
+					
+				</View> */}
+				{selectedCity
+					? <AQIRender style={{ ...styles.aqirender }} citydata={selectedCity} />
+					: null}
 			</View>
 		</TouchableWithoutFeedback>
 
@@ -77,12 +81,22 @@ const styles = StyleSheet.create({
 	container: {
 		backgroundColor: '#fff',
 		alignItems: 'center',
-		margin: 50
+		color: '#EEEDED',
 	},
 	header: {
+		width: 300,
+		height: 75,
+		margin: 45,
+		backgroundColor: '#fff',
+		borderRadius: 4
+	},
+	headerText: {
 		fontSize: 30,
 		fontWeight: 'bold',
-		margin: 10
+		textAlign: 'center'
+	},
+	aqirender: {
+		color: '#EEEDED'
 	}
 });
 
