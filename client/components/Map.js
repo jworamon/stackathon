@@ -42,8 +42,8 @@ const Map = (props) => {
         mapRef.current.animateToRegion({
             latitude,
             longitude,
-            latitudeDelta: 5,
-            longitudeDelta: 5
+            latitudeDelta: 3,
+            longitudeDelta: 3
         });
     }
 
