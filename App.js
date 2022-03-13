@@ -11,12 +11,11 @@ const App = () => {
 	const [cities, _setCities] = useState(defaultCities);
 	const [cityData, setCityData] = useState([]);
 	const [selectedCity, setSelectedCity] = useState(null);
+	const [mapCity, setMapCity] = useState(null);
 
 	useEffect(() => {
-		if (cities.length === defaultCities.length) {
-			loadCitiesData();
-		}
-	}, [cityData]);
+		loadCitiesData();
+	}, []);
 
 	const citiesRef = useRef(cities);
 	const setCities = cities => {
@@ -24,6 +23,7 @@ const App = () => {
 		_setCities(cities);
 	}
 
+	// get city names from async strage
 	const getCityFromStorage = async () => {
 		const jsonValue = await AsyncStorage.getItem('city');
 		if (jsonValue) {
@@ -32,6 +32,7 @@ const App = () => {
 		}
 	}
 
+	// get all city names (default + async storage) and get data from API calls
 	const loadCitiesData = async () => {
 		try {
 			await getCityFromStorage();
@@ -48,32 +49,32 @@ const App = () => {
 		}
 	}
 
+	// handle when a new city is added/being searched; adds new marker + shows AQIRender
 	const addCityToData = (data) => {
 		setCityData([...cityData, data]);
 		setSelectedCity(data);
 	}
 
+	// handle when a user presses on existing markers; shows AQIRender
 	const selectCity = (data) => {
 		setSelectedCity(data);
 	}
 
+	// handle when a new city is added/being searched; mapview follows to the city coordinate
+	const changeMapCity = (data) => {
+		setMapCity(data);
+	}
+
 	return (
-		<TouchableWithoutFeedback onPress={Keyboard.dismiss()}>
+		<TouchableWithoutFeedback onPress={Keyboard.dismiss}>
 			<View style={styles.container}>
-				<Map data={cityData} selectCity={selectCity} currentRegion={selectedCity} />
-				<CityInput addCity={addCityToData} />
-				{/* <View style={styles.header}>
-					<Text style={styles.headerText}>Air Quality Index</Text>
-					
-				</View> */}
+				<Map data={cityData} selectCity={selectCity} mapCity={mapCity} />
+				<CityInput addCity={addCityToData} changeMapCity={changeMapCity} />
 				{selectedCity
 					? <AQIRender style={{ ...styles.aqirender }} citydata={selectedCity} selectCity={selectCity} />
 					: null}
 			</View>
 		</TouchableWithoutFeedback>
-
-
-
 	);
 }
 
@@ -90,10 +91,12 @@ const styles = StyleSheet.create({
 		backgroundColor: '#fff',
 		borderRadius: 4
 	},
-	headerText: {
+	text: {
 		fontSize: 30,
 		fontWeight: 'bold',
-		textAlign: 'center'
+		textAlign: 'center',
+		flexDirection: 'column',
+		alignContent: 'flex-end'
 	},
 	aqirender: {
 		color: '#EEEDED'

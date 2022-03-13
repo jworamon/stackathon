@@ -10,15 +10,15 @@ const AQIRender = (props) => {
 
     return (
         <View style={{ ...styles.container, backgroundColor: `${color}` }}>
-            <View style={styles.aqirender}>
-                <Text style={{ ...styles.aqirender, fontSize: 20, fontWeight: 'bold' }}>{cityData.location.name.toUpperCase()}</Text>
-                <Text style={{ ...styles.aqirender, fontWeight: 'bold' }}>Air Quality: {currentEPA}</Text>
+            <View>
+                <Text style={{ fontSize: 20, fontWeight: 'bold', marginBottom: 10 }}>{cityData.location.name.toUpperCase()} - {pm2_5.toFixed(2)}</Text>
+                <Text style={{ fontWeight: 'bold' }}>Air Quality: {currentEPA}</Text>
                 <Text>Ground-Level Ozone: {o3.toFixed(2)}</Text>
                 <Text>Carbon Monoxide: {co.toFixed(2)}</Text>
                 <Text>Nitrogen Dioxide: {no2.toFixed(2)}</Text>
                 <Text>Sulfur Dioxide: {so2.toFixed(2)}</Text>
-                <Text>PM 2.5: {pm2_5.toFixed(2)}</Text>
                 <Text>PM10: {pm10.toFixed(2)}</Text>
+                <Text>PM 2.5: {pm2_5.toFixed(2)}</Text>
             </View>
             <Pressable onPress={() => props.selectCity(null)} >
                 <Text style={styles.button}>{'[close x]'}</Text>
@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
         fontSize: 18,
         padding: 10,
         paddingRight: 0,
-        opacity: 0.8
+        opacity: 0.85
     },
     button: {
         fontSize: 15,

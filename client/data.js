@@ -93,9 +93,9 @@ const getColor = (value) => {
         case value > 55 && value <= 150:
             return '#F24533'
         case value > 150 && value <= 250:
-            return '#CF1968';
+            return '#FC3089';
         case value > 250:
-            return '#A30359';
+            return '#9D00DB';
         default:
             return '';
     }

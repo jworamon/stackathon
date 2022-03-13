@@ -6,17 +6,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const CityInput = props => {
     const [cityOrZip, setCityOrZip] = React.useState('');
-    const [currentCityData, setCurrentCityData] = React.useState('');
-    const [cityData, setCityData] = React.useState(null);
-
-    useEffect(() => {
-        if (cityData) {
-            // setPm25(cityData.current.air_quality.pm2_5);
-            // setCurrentCity(cityData.location.name);
-            setCurrentCityData(cityData);
-        }
-    }, [cityData]);
-
+   
     // store each city being searched into localstorage
     const storeCity = async (value) => {
         try {
@@ -38,9 +28,9 @@ const CityInput = props => {
     const handleSubmit = async () => {
         const dataFromAPI = await getAirQualityData(cityOrZip);
         storeCity(cityOrZip);
-        setCityData(dataFromAPI);
         setCityOrZip('');
         props.addCity(dataFromAPI);
+        props.changeMapCity(dataFromAPI);
     };
 
     return (
@@ -52,7 +42,6 @@ const CityInput = props => {
                 onSubmitEditing={handleSubmit}
                 placeholder={'Enter City or Zipcode'}
             />
-            {/* <View>{currentCityData ? <AQIRender citydata={currentCityData} /> : null}</View> */}
         </View>
     );
 };
