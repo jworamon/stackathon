@@ -7,9 +7,7 @@ import CircleMarker from './CircleMarker';
 const Map = (props) => {
     const mapCity = props.mapCity;
     const cities = props.data;
-    console.log('CITY LENGTH: ', cities.length);
     const markers = cities.map((city, idx) => {
-        // console.log('CITY: ', city.data.location.name);
         return (
             <Marker
                 key={idx}

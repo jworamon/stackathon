@@ -34,7 +34,6 @@ const App = () => {
 
 	// get city names from async strage
 	const getCityFromStorage = async () => {
-		await AsyncStorage.removeItem('city');
 		const jsonValue = await AsyncStorage.getItem('city');
 		if (jsonValue) {
 			const cityArr = JSON.parse(jsonValue);
