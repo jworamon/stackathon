@@ -86,18 +86,16 @@ const getColor = (value) => {
     switch (true) {
         case value <= 12:
             return '#89CF4C'
-        case value > 12 && value <= 35:
+        case value <= 35:
             return '#FFC945'
-        case value > 35 && value <= 55:
+        case value <= 55:
             return '#FA9328'
-        case value > 55 && value <= 150:
+        case value <= 150:
             return '#F24533'
-        case value > 150 && value <= 250:
+        case value <= 250:
             return '#FC3089';
-        case value > 250:
-            return '#9D00DB';
         default:
-            return '';
+            return '#9D00DB';
     }
 }
 

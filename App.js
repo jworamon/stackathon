@@ -12,11 +12,20 @@ const App = () => {
 	const [cityData, setCityData] = useState([]);
 	const [selectedCity, setSelectedCity] = useState(null);
 	const [mapCity, setMapCity] = useState(null);
+	const [test, setTest] = useState(false);
 
-	useEffect(() => {
-		loadCitiesData();
+	useEffect(async () => {
+		await loadCitiesData();		
+		setTest(true);
 	}, []);
 
+	useEffect(() => {
+		if (test) {
+			setCityData([...cityData]);
+			setTest(false);
+		}
+	}, [test]);
+	
 	const citiesRef = useRef(cities);
 	const setCities = cities => {
 		citiesRef.current = cities;
@@ -25,6 +34,7 @@ const App = () => {
 
 	// get city names from async strage
 	const getCityFromStorage = async () => {
+		await AsyncStorage.removeItem('city');
 		const jsonValue = await AsyncStorage.getItem('city');
 		if (jsonValue) {
 			const cityArr = JSON.parse(jsonValue);
@@ -43,7 +53,6 @@ const App = () => {
 
 			const [...cityPromiseResult] = await Promise.all(cityDataPromises);
 			setCityData([...cityData, ...cityPromiseResult]);
-
 		} catch (err) {
 			console.log('error', err);
 		}
