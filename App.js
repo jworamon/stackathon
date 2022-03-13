@@ -58,16 +58,16 @@ const App = () => {
 	}
 
 	return (
-		<TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+		<TouchableWithoutFeedback onPress={Keyboard.dismiss()}>
 			<View style={styles.container}>
-				<Map data={cityData} selectCity={selectCity} />
+				<Map data={cityData} selectCity={selectCity} currentRegion={selectedCity} />
 				<CityInput addCity={addCityToData} />
 				{/* <View style={styles.header}>
 					<Text style={styles.headerText}>Air Quality Index</Text>
 					
 				</View> */}
 				{selectedCity
-					? <AQIRender style={{ ...styles.aqirender }} citydata={selectedCity} />
+					? <AQIRender style={{ ...styles.aqirender }} citydata={selectedCity} selectCity={selectCity} />
 					: null}
 			</View>
 		</TouchableWithoutFeedback>

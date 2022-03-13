@@ -95,7 +95,26 @@ const getColor = (value) => {
         case value > 150 && value <= 250:
             return '#CF1968';
         case value > 250:
-            return '#8F034D';
+            return '#A30359';
+        default:
+            return '';
+    }
+}
+
+const epaConverter = (num) => {
+    switch (true) {
+        case num === 1:
+            return 'Good'
+        case num === 2:
+            return 'Moderate'
+        case num === 3:
+            return 'Unhealthy for Sensitive Group'
+        case num === 4:
+            return 'Unhealthy'
+        case num === 5:
+            return 'Very Unhealthy'
+        case num === 6:
+            return 'Hazardous'
         default:
             return '';
     }
@@ -105,4 +124,5 @@ module.exports = {
     getAirQualityData,
     defaultCities,
     getColor,
+    epaConverter
 }

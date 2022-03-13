@@ -1,9 +1,10 @@
-import * as React from 'react';
-import MapView, { PROVIDER_GOOGLE, Marker, Image } from 'react-native-maps';
-import { StyleSheet, View, Dimensions, TouchableHighlight } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps';
+import { StyleSheet, View, Dimensions } from 'react-native';
 import { getColor } from '../data';
 
 const Map = (props) => {
+    const region = props.selectedCity;
     const cities = props.data;
     const markers = cities.map((city, idx) => {
         return (
@@ -19,49 +20,45 @@ const Map = (props) => {
         )
     })
 
-    const handleSelect = (city) => {
+    const handleSelect = city => {
         props.selectCity(city);
     }
 
+    const handleRegionChange = region => {
+        if (region) {
+            return {
+                latitude: region.data.location.lat,
+                longitude: region.data.location.lon,
+                latitudeDelta: 0,
+                longitudeDelta: 0
+            }
+        }
+    }
+
     return (
-        <TouchableHighlight>
-            <View style={styles.container}>
-                <MapView
-                    style={styles.map}
-                    provider={PROVIDER_GOOGLE}
-                // initialRegion={{
-                //     latitude: 46.6714,
-                //     longitude: -103.8521,
-                //     latitudeDelta: 5,
-                //     longitudeDelta: 50,
-                // }}
-                // onPress={() => handleSelect(null)}
-                >
-                    {markers}
-                </MapView>
-            </View>
-        </TouchableHighlight>
+        <View style={styles.container}>
+            <MapView
+                style={styles.map}
+                provider={PROVIDER_GOOGLE}
+                initialRegion={{
+                    latitude: 35.7128,
+                    longitude: -104.0060,
+                    latitudeDelta: 38,
+                    longitudeDelta: 38,
+                }}
+                animateToRegion={{
+                    region: handleRegionChange(region),
+                    duration: 1000
+                }}
+                followsUserLocation={true}
+            >
+                {markers}
+            </MapView>
+        </View>
     )
 }
 
-const epaConverter = (num) => {
-    switch (true) {
-        case num === 1:
-            return 'Good'
-        case num === 2:
-            return 'Moderate'
-        case num === 3:
-            return 'Unhealthy for Sensitive Group'
-        case num === 4:
-            return 'Unhealthy'
-        case num === 5:
-            return 'Very Unhealthy'
-        case num === 6:
-            return 'Hazardous'
-        default:
-            return '';
-    }
-}
+
 const styles = StyleSheet.create({
     container: {
         alignItems: 'center',
